@@ -1,0 +1,26 @@
+is_debug: true
+listen:
+  type: port
+  port: 3000
+storage:
+
+  host: localhost
+  port: 5432
+  database: salam_news
+  username: postgres
+  password: salam_news
+  pg_pool_max_conn: 10
+jwt_key: narmanly bol
+jwt_key_1: narmanly bol
+max_file_size: 10485760
+message_max_file_size: 10485760
+
+public_path: ./../../public
+
+get_public_path: /../../public/
+
+public_file_path_post: /mnt/public/feeds
+public_file_path_video: /mnt/public/videos
+public_file_path_album: /mnt/public/album
+message_mimetypes: ["image/jpeg", "image/heif", "txt", "video/mp4", ".HEIF", "application/pdf", "application/x-zip-compressed", "audio/mpeg", "audio/m4a"]
+video_collection_server: 10.192.1.60:2204
