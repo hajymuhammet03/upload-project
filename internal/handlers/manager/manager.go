@@ -11,8 +11,8 @@ import (
 )
 
 const (
+	baseURL        = "/api/v1/dvd"
 	healthcheckURL = "/api/v1/healthcheck"
-	categoryURL    = "/api/v1/dvd"
 )
 
 func Manager(db postgresql.Client, logger *logging.Logger) *mux.Router {
@@ -23,7 +23,7 @@ func Manager(db postgresql.Client, logger *logging.Logger) *mux.Router {
 		fmt.Fprintf(w, `{"status": "our news service is running"}`)
 	})
 
-	categoryRouterManager := router.PathPrefix(categoryURL).Subrouter()
+	categoryRouterManager := router.PathPrefix(baseURL).Subrouter()
 	categoryRouterRepository := categorydb.NewRepository(db, logger)
 	categoryRouterHandler := category.NewHandler(categoryRouterRepository, logger)
 	categoryRouterHandler.Register(categoryRouterManager)

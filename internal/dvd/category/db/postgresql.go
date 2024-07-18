@@ -109,3 +109,33 @@ func (r *repository) GetCategory(ctx context.Context, dto category.PaginationDTO
 	}
 	return categories, count, nil
 }
+
+func (r *repository) GetCategoryID(ctx context.Context, id category.UUID) (category.GetCategory, error) {
+	var category category.GetCategory
+
+	q := `
+         SELECT 
+              c.uuid, c.name_tm, c.name_en, c.name_ru,
+              c.last_update, c.created_at
+         FROM category c 
+         WHERE c.uuid = $1
+        `
+
+	err := r.db.QueryRow(ctx, q, id.UUID).Scan(&category.UUID, &category.NameTm, &category.NameEn,
+		&category.NameRu, &category.LastUpdate, &category.CreatedAt)
+
+	if err != nil {
+		fmt.Println("Get Category ID Error: ", err)
+	}
+	return category, nil
+}
+
+func (r *repository) DeleteCategory(ctx context.Context, id category.UUID) error {
+	q := ` DELETE FROM category WHERE uuid = $1 `
+	_, err := r.db.Exec(ctx, q, id.UUID)
+	if err != nil {
+		fmt.Println("Delete Category Error: ", err)
+		return err
+	}
+	return nil
+}
