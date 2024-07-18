@@ -8,7 +8,9 @@ import (
 	"github.com/Hajymuhammet03/pkg/logging"
 	"github.com/Hajymuhammet03/pkg/postgresql"
 	"github.com/jackc/pgx/v4/pgxpool"
+	httpSwagger "github.com/swaggo/http-swagger"
 
+	_ "github.com/Hajymuhammet03/docs"
 	"net"
 	"net/http"
 
@@ -18,6 +20,29 @@ import (
 	"github.com/rs/cors"
 )
 
+// @title Swagger API FILM
+// @version 1.0
+// @description This is upload project
+// @termsOfService  http://swagger.io/terms/
+
+// @contact.name   API Support
+// @contact.url    http://www.swagger.io/support
+// @contact.email  support@swagger.io
+
+// @license.name  Apache 2.0
+// @license.url   http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @host localhost:2303
+// @BasePath /api/v1/dvd
+// @schemes http https
+
+// @securityDefinitions.apiKey  ApiKeyAuth
+// @security
+// @in header
+// @name authorization
+
+// @externalDocs.description  OpenAPI
+// @externalDocs.url          https://swagger.io/resources/open-api/
 func main() {
 	cfg := config.GetConfig()
 	logger := logging.GetLogger()
@@ -57,6 +82,12 @@ func start(router *mux.Router, cfg *config.Config, pGPool *pgxpool.Pool) {
 		AllowedMethods: []string{"GET", "POST", "PUT", "DELETE"},
 	})
 	handler := c.Handler(router)
+	router.PathPrefix("/swagger/").Handler(httpSwagger.Handler(
+		httpSwagger.URL("http://localhost:2303/swagger/doc.json"), //The url pointing to API definition
+		httpSwagger.DeepLinking(true),
+		httpSwagger.DocExpansion("none"),
+		httpSwagger.DomID("swagger-ui"),
+	)).Methods(http.MethodGet)
 
 	server := &http.Server{
 		Handler:        handler,

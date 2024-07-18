@@ -46,7 +46,7 @@ func GenerateTokenPair(email, uuid string) (interface{}, error) {
 	token := jwt.New(jwt.SigningMethodHS256)
 	// Set claims
 	// This is the information which frontend can use
-	// The backend can also decode the token and get admin etc.
+	// The backend can also decode the token and get dvd etc.
 	claims := token.Claims.(jwt.MapClaims)
 	claims["authorized"] = true
 	claims["jwt"] = email

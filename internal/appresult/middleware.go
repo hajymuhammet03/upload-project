@@ -109,7 +109,7 @@ func MidTokenChkSupAdmin(h http.HandlerFunc) http.HandlerFunc {
 		claims, err := TokenClaims(token, cfg.JwtKey)
 
 		if err != nil || fmt.Sprint(claims["uuid"]) == "" {
-			fmt.Println("err on mid token admin", err)
+			fmt.Println("err on mid token dvd", err)
 			w.WriteHeader(http.StatusNotAcceptable)
 			w.Write(ErrNotAcceptable.Marshal())
 			return

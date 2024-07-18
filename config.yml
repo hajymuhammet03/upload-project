@@ -1,12 +1,12 @@
 is_debug: true
 listen:
   type: port
-  port: 3000
+  port: 2303
 storage:
 
   host: localhost
   port: 5432
-  database: salam_news
+  database: film_upload
   username: postgres
   password: salam_news
   pg_pool_max_conn: 10
