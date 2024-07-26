@@ -40,3 +40,46 @@ func (r *repository) AddLanguage(ctx context.Context, dto language.LanguageDTO) 
 	}
 	return id, nil
 }
+
+func (r *repository) GetLanguage(ctx context.Context, search string) ([]language.Language, error) {
+
+	var languages []language.Language
+	q := `SELECT uuid, name, last_update FROM language WHERE name ILIKE $1||'%'`
+	rows, err := r.db.Query(ctx, q, search)
+	if err != nil {
+		fmt.Println("Error getting language: ", err)
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var language language.Language
+		err := rows.Scan(&language.UUID, &language.Name, &language.LastUpdate)
+		if err != nil {
+			fmt.Println("Error getting rows language: ", err)
+		}
+
+		languages = append(languages, language)
+	}
+
+	return languages, nil
+}
+
+func (r *repository) GetLanguageID(ctx context.Context, id string) (language.UUID, error) {
+	var l language.UUID
+	q := `SELECT uuid FROM language WHERE uuid = $1`
+	err := r.db.QueryRow(ctx, q, id).Scan(&l.UUID)
+	if err != nil {
+		fmt.Println("Error getting language id: ", err)
+	}
+	return l, nil
+}
+
+func (r *repository) DeleteLanguage(ctx context.Context, id string) error {
+
+	q := `DELETE FROM language WHERE uuid = $1`
+	_, err := r.db.Exec(ctx, q, id)
+	if err != nil {
+		fmt.Println("Error deleting language: ", err)
+	}
+	return err
+}

@@ -15,8 +15,8 @@ import (
 const (
 	addLanguage    = "/language"
 	getLanguage    = "/get-language"
-	getLanguageID  = "/get-language-id"
-	deleteLanguage = "/delete-language"
+	getLanguageID  = "/get-language/{id}"
+	deleteLanguage = "/delete-language/{id}"
 )
 
 type handler struct {
@@ -33,6 +33,10 @@ func NewHandler(repository Repository, logger *logging.Logger) handlers.Handler 
 
 func (h *handler) Register(router *mux.Router) {
 	router.HandleFunc(addLanguage, appresult.Middleware(h.AddLanguage)).Methods(http.MethodPost)
+	router.HandleFunc(getLanguage, appresult.Middleware(h.GetLanguage)).Methods(http.MethodGet)
+	router.HandleFunc(getLanguageID, appresult.Middleware(h.GetLanguageID)).Methods(http.MethodGet)
+	router.HandleFunc(deleteLanguage, appresult.Middleware(h.DeleteLanguage)).Methods(http.MethodDelete)
+
 }
 
 // Add Language v1
@@ -67,6 +71,88 @@ func (h *handler) AddLanguage(w http.ResponseWriter, r *http.Request) error {
 
 	successResult := appresult.Success
 	successResult.Data = data
+	w.Header().Add(appresult.HeaderContentTypeJson())
+	err = json.NewEncoder(w).Encode(successResult)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// Get Language v1
+// @Summary Get language
+// @Description Get a language based on a search query parameter
+// @Tags dvd
+// @ID get_language_v1
+// @Accept json
+// @Produce json
+// @Param search query string true "Search query parameter"
+// @Success 200 {object} []language.Language "Successful operation"
+// @Failure 500 {object} string	"some err from db"
+// @Router /get-language [get]
+func (h *handler) GetLanguage(w http.ResponseWriter, r *http.Request) error {
+	search := r.URL.Query().Get("search")
+
+	data, err := h.repository.GetLanguage(context.TODO(), search)
+	if err != nil {
+		fmt.Println("error handler in GetLanguage: ", err)
+		return appresult.ErrInternalServer
+	}
+
+	successResult := appresult.Success
+	successResult.Data = data
+	w.Header().Add(appresult.HeaderContentTypeJson())
+	err = json.NewEncoder(w).Encode(successResult)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// GetLanguageID v1
+// @Summary Get language by ID
+// @Description Get details of a specific language by its ID
+// @Tags dvd
+// @Param id path string true "Language ID"
+// @Produce json
+// @Success 200 {object} language.UUID "Successful operation"
+// @Failure 500 {object} string	"some err from db"
+// @Router /get-language/{id} [get]
+func (h *handler) GetLanguageID(w http.ResponseWriter, r *http.Request) error {
+	id := mux.Vars(r)["id"]
+	data, err := h.repository.GetLanguageID(context.TODO(), id)
+	if err != nil {
+		fmt.Println("error handler in GetLanguageID: ", err)
+		return appresult.ErrInternalServer
+	}
+	successResult := appresult.Success
+	successResult.Data = data
+	w.Header().Add(appresult.HeaderContentTypeJson())
+	err = json.NewEncoder(w).Encode(successResult)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// DeleteLanguage v1
+// @Summary Delete language by ID
+// @Description Delete a specific language by its ID
+// @Tags dvd
+// @Param id path string true "Language ID"
+// @Produce json
+// @Success 200
+// @Failure 500 {object} string	"some err from db"
+// @Router /delete-language/{id} [delete]
+func (h *handler) DeleteLanguage(w http.ResponseWriter, r *http.Request) error {
+	id := mux.Vars(r)["id"]
+	err := h.repository.DeleteLanguage(context.TODO(), id)
+	if err != nil {
+		fmt.Println("error handler in DeleteLanguage: ", err)
+		return appresult.ErrInternalServer
+	}
+	successResult := appresult.Success
+	successResult.Data = ""
 	w.Header().Add(appresult.HeaderContentTypeJson())
 	err = json.NewEncoder(w).Encode(successResult)
 	if err != nil {

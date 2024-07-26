@@ -1,3 +1,4 @@
+
 # Proje değişkenleri
 PROJECT_NAME := upload-project
 BUILD_DIR := bin

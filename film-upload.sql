@@ -36,13 +36,22 @@ CREATE TABLE film_category (
 
 -----------------Film------------------
 CREATE TABLE film (
-    UUID uuid PRIMARY KEY DEFAULT UUID_GENERATE_V4(),
-    title VARCHAR(255) NOT NULL,
-    description TEXT NOT NULL,
-    release_year DATE NOT NULL,
-    language_id uuid,
-    rental_duration
-
+                      UUID UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+                      title VARCHAR(255) NOT NULL,
+                      description TEXT NOT NULL,
+                      release_year INTEGER, -- Changed YEAR to INTEGER
+                      language_id UUID,
+                      rental_duration INTEGER,
+                      rental_rate NUMERIC(4, 2),
+                      length SMALLINT,
+                      replacement_cost NUMERIC(5, 2),
+                      rating VARCHAR(10), -- Assuming MPAA_RATING is a textual representation
+                      last_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                      special_features TEXT,
+                          CONSTRAINT language_id_fk
+                          FOREIGN KEY (language_id)
+                    REFERENCES language (uuid)
+                           ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 
