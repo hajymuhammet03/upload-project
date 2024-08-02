@@ -50,7 +50,7 @@ func (l *Logger) GetLoggerWithField(k string, v interface{}) *Logger {
 func init() {
 
 	// TODO logs path
-	pathLog := "/home/hajy/Desktop/Projects/upload-music/pkg/logging/all.log"
+	pathLog := "./../../../all.log"
 
 	l := logrus.New()
 	l.SetReportCaller(true)

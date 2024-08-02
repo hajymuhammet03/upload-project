@@ -43,11 +43,12 @@ CREATE TABLE film (
                       language_id UUID,
                       rental_duration INTEGER,
                       rental_rate NUMERIC(4, 2),
-                      length SMALLINT,
+                      length INT,
                       replacement_cost NUMERIC(5, 2),
                       rating VARCHAR(10), -- Assuming MPAA_RATING is a textual representation
                       last_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                       special_features TEXT,
+                      fulltext TSVECTOR,
                           CONSTRAINT language_id_fk
                           FOREIGN KEY (language_id)
                     REFERENCES language (uuid)

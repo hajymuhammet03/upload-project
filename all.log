@@ -1,0 +1,4 @@
+time="2024-08-01T15:33:16+05:00" level=info msg="read application configuration" func="github.com/sirupsen/logrus.(*Entry).Info()" file="entry.go:285"
+time="2024-08-01T15:33:16+05:00" level=info msg="start application" func="github.com/sirupsen/logrus.(*Entry).Info()" file="entry.go:285"
+time="2024-08-01T15:33:16+05:00" level=info msg="listen tcp" func="github.com/sirupsen/logrus.(*Entry).Info()" file="entry.go:285"
+time="2024-08-01T15:33:16+05:00" level=info msg="server is listening port 0.0.0.0:2303" func="github.com/sirupsen/logrus.(*Entry).Logf()" file="entry.go:314"

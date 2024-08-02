@@ -2,6 +2,7 @@ package manager
 
 import (
 	"fmt"
+	"github.com/Hajymuhammet03/internal/appresult"
 	"github.com/Hajymuhammet03/internal/dvd/category"
 	categorydb "github.com/Hajymuhammet03/internal/dvd/category/db"
 	"github.com/Hajymuhammet03/internal/dvd/film_category"
@@ -23,7 +24,7 @@ func Manager(db postgresql.Client, logger *logging.Logger) *mux.Router {
 	router := mux.NewRouter().StrictSlash(true)
 
 	router.HandleFunc(healthcheckURL, func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "application/json")
+		w.Header().Add(appresult.HeaderContentTypeJson())
 		fmt.Fprintf(w, `{"status": "our news service is running"}`)
 	})
 

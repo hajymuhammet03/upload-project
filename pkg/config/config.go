@@ -27,15 +27,16 @@ type Config struct {
 
 	PublicFilePathPost  string `yaml:"public_file_path_post" env-required:"true"`
 	PublicFilePathVideo string `yaml:"public_file_path_video" env-required:"true"`
+	//PublicFilePathNews  string `yaml:"public_file_path_news" env-required:"true"`
 }
 
 type StorageConfig struct {
 	PgPoolMaxConn int    `yaml:"pg_pool_max_conn" env-required:"true"`
-	Host          string `json:"host"`
-	Port          string `json:"port"`
-	Database      string `json:"database"`
-	Username      string `json:"username"`
-	Password      string `json:"password"`
+	Host          string `yaml:"host" env-required:"true"`
+	Port          string `yaml:"port" env-required:"true"`
+	Database      string `yaml:"database" env-required:"true"`
+	Username      string `yaml:"username" env-required:"true"`
+	Password      string `yaml:"password" env-required:"true"`
 }
 
 type RedisConfig struct {
@@ -53,6 +54,8 @@ func GetConfig() *Config {
 	once.Do(func() {
 
 		// TODO path config
+		//pathConfig := "/home/govshudov/Desktop/Projects/clean-backend/config.yml"
+		// pathConfig	 := "/home/user/go/src/clean-backend/config.yml"
 		pathConfig := "./../../config.yml"
 
 		logger := logging.GetLogger()

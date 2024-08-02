@@ -4,7 +4,7 @@ listen:
   port: 2303
 storage:
 
-  host: localhost
+  host: postgres
   port: 5432
   database: film_upload
   username: postgres
