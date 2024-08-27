@@ -52,7 +52,7 @@ func (h *handler) Register(router *mux.Router) {
 func (h *handler) AddLanguage(w http.ResponseWriter, r *http.Request) error {
 	body, errBody := ioutil.ReadAll(r.Body)
 	if errBody != nil {
-		fmt.Println("error handler in AddLanguage body: ", errBody)
+		fmt.Println("error handler in Add Language body: ", errBody)
 		return appresult.ErrMissingParam
 	}
 

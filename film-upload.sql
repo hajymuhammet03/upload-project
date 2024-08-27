@@ -57,11 +57,11 @@ CREATE TABLE film (
 
 
 ------Language-----
-CREATE TABLE language (
-    UUID uuid PRIMARY KEY DEFAULT UUID_GENERATE_V4(),
-    name VARCHAR(100) NOT NULL ,
-    last_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+    CREATE TABLE language (
+        UUID uuid PRIMARY KEY DEFAULT UUID_GENERATE_V4(),
+        name VARCHAR(100) NOT NULL ,
+        last_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
 
 
 

@@ -5,10 +5,13 @@ import (
 	"github.com/Hajymuhammet03/internal/appresult"
 	"github.com/Hajymuhammet03/internal/dvd/category"
 	categorydb "github.com/Hajymuhammet03/internal/dvd/category/db"
+	"github.com/Hajymuhammet03/internal/dvd/film"
 	"github.com/Hajymuhammet03/internal/dvd/film_category"
 	filmCategorydb "github.com/Hajymuhammet03/internal/dvd/film_category/db"
 	"github.com/Hajymuhammet03/internal/dvd/language"
 	languagedb "github.com/Hajymuhammet03/internal/dvd/language/db"
+
+	filmdb "github.com/Hajymuhammet03/internal/dvd/film/db"
 	"github.com/Hajymuhammet03/pkg/logging"
 	"github.com/Hajymuhammet03/pkg/postgresql"
 	"github.com/gorilla/mux"
@@ -43,5 +46,9 @@ func Manager(db postgresql.Client, logger *logging.Logger) *mux.Router {
 	languageRouterHandler := language.NewHandler(languageRouterRepository, logger)
 	languageRouterHandler.Register(languageRouterManager)
 
+	filmRouterManager := router.PathPrefix(baseURL).Subrouter()
+	filmRouterRepository := filmdb.NewRepository(db, logger)
+	filmRouterHandler := film.NewHandler(filmRouterRepository, logger)
+	filmRouterHandler.Register(filmRouterManager)
 	return router
 }
